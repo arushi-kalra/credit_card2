@@ -1,4 +1,4 @@
-package com.example.arushi.credi_card;
+package com.example.arush.credit_card;
 
 import java.util.concurrent.TimeUnit;
 

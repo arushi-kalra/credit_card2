@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
     public void hitApi(String a,String t,String d,String tn,String i_f,String i_h,String d_c,String c_a,String c_f)
     {
 
-        apiInterface= com.example.arushi.credi_card.ApiClient.getApiClient().create(ApiInterface.class);
+        apiInterface= ApiClient.getApiClient().create(ApiInterface.class);
         Call<Pojo> call=apiInterface.getAPIResponse(a,t,d,tn,i_f,i_h,d_c,c_a,c_f);
         call.enqueue(
                 new Callback<Pojo>() {
@@ -72,11 +72,22 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(Call<Pojo> call, Response<Pojo> response) {
                         if(response.isSuccessful())
                         {
-                            if(response!=null)
-                            {
-                                Log.d(TAG, "onResponse: "+ response.body().getPrediction());
+                                if(response!=null) {
+                                    Pojo pojo=response.body();
 
-                            }
+                                    AlertDialog alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+                                    alertDialog.setTitle("credi card fraud Prediction");
+                                    alertDialog.setMessage("Predicted Result for decision tree is "+pojo.getPrediction()+"\n" +"Predicted Result for knn is "+pojo.getPrediction1()+"\n"+"Predicted Result for logisticreg is "+pojo.getPrediction2()+"\n"+"Predicted Result for randomforest is "+pojo.getPrediction3());
+                                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                            new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            });
+                                    alertDialog.show();
+                                }
+
+
                         }
 
                     }
